@@ -70,7 +70,7 @@ export abstract class SimpleReact<S, P> extends HTMLElement {
     }
   }
   connectedCallback() {
-    //this._attr = [...this.attributes];
+    // this._attr = [...this.attributes];
     this.handleRender()
   }
 
