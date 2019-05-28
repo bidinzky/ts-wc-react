@@ -1,38 +1,37 @@
 import * as React from 'jsx-dom'
+import { setState } from './state'
+
 export { bind } from 'bind-decorator'
 export { React }
 
 export interface SimpleReact<S = any, P = {}> {
   shouldComponentUpdate?(new_state: S, new_props: P): boolean
   componentWillUnmount?(): void
+  render?(state?: S, props?: P): JSX.Element
 }
 
-export abstract class SimpleReact<S, P> extends HTMLElement {
+export class SimpleReact<S, P> extends HTMLElement {
   private observer = new MutationObserver(() => {
     this.handleRender()
   })
-  protected state: S = {} as S
-  private new_state?: S
+  public state: S = {} as S
+  public new_state: S = {} as S
   private props: P = {} as P
   private shadow: ShadowRoot
-  abstract render(state?: S, props?: P): JSX.Element
 
   setState<K extends keyof S>(
     update:
       | ((prevState: Readonly<S>, props: P) => Partial<S> | Pick<S, K> | S)
+      | ((prevState: S, props: P) => void)
       | (Partial<S> | Pick<S, K>),
     callback?: () => void
   ): void {
-    if (!this.new_state) {
-      this.new_state = Object.assign({}, this.state)
-    }
-
-    if (typeof update !== 'function') {
-      Object.assign(this.new_state, update)
-    } else {
-      Object.assign(this.new_state, update(this.state, this.props))
-    }
-    this.handleRender()
+    setState<S, P, K>(this, this.props, update, () => {
+      this.handleRender()
+      if (callback) {
+        callback()
+      }
+    })
   }
 
   static mapAttributes<S, P>(ele: SimpleReact<S, P>): P {
