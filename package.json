@@ -1,6 +1,6 @@
 {
   "name": "ts-wc-react",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "",
   "keywords": [],
   "main": "dist/ts-wc-react.umd.js",
@@ -19,7 +19,7 @@
     "node": ">=6.0.0"
   },
   "scripts": {
-    "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
+    "lint": "tslint -c tslint.json -p . \"src/**/*.ts\" \"test/**/*.ts\"",
     "prebuild": "rimraf dist",
     "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
     "start": "rollup -c rollup.config.ts -w",
@@ -63,10 +63,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 90,
-        "functions": 95,
-        "lines": 95,
-        "statements": 95
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
+        "statements": 0
       }
     },
     "collectCoverageFrom": [
