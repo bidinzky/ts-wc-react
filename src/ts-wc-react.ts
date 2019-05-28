@@ -2,10 +2,6 @@ import * as React from 'jsx-dom'
 export { bind } from 'bind-decorator'
 export { React }
 
-interface StateFunction<S> {
-  (s: S): S
-}
-
 export interface SimpleReact<S = any, P = {}> {
   shouldComponentUpdate?(new_state: S, new_props: P): boolean
   componentWillUnmount?(): void
@@ -23,8 +19,8 @@ export abstract class SimpleReact<S, P> extends HTMLElement {
 
   setState<K extends keyof S>(
     update:
-      | ((prevState: Readonly<S>, props: P) => Partial<S> & Pick<S, K> & S)
-      | (Partial<S> & Pick<S, K>),
+      | ((prevState: Readonly<S>, props: P) => Partial<S> | Pick<S, K> | S)
+      | (Partial<S> | Pick<S, K>),
     callback?: () => void
   ): void {
     if (!this.new_state) {
