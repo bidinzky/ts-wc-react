@@ -11,6 +11,7 @@
     "experimentalDecorators": true,
     "downlevelIteration": true,
     "forceConsistentCasingInFileNames": true,
+    "strictNullChecks": true,
     "emitDecoratorMetadata": true,
     "declarationDir": "dist/types",
     "outDir": "dist/lib",

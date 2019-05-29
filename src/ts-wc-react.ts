@@ -1,5 +1,5 @@
 import * as React from 'jsx-dom'
-import { setState } from './state'
+import { setState, UpdateFunction } from './state'
 
 export { bind } from 'bind-decorator'
 export { React }
@@ -19,12 +19,7 @@ export class SimpleReact<S, P> extends HTMLElement {
   private props: P = {} as P
   private shadow: ShadowRoot
 
-  setState<K extends keyof S>(
-    update:
-      | ((prevState: S, props: P) => Partial<S> | Pick<S, K> | S | {})
-      | (Partial<S> | Pick<S, K>),
-    callback?: () => void
-  ): void {
+  setState<K extends keyof S>(update: UpdateFunction<S, P, K>, callback?: () => void): void {
     setState<S, P, K>(this, this.props, update, () => {
       this.handleRender()
       if (callback) {
