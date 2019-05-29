@@ -21,8 +21,7 @@ export class SimpleReact<S, P> extends HTMLElement {
 
   setState<K extends keyof S>(
     update:
-      | ((prevState: Readonly<S>, props: P) => Partial<S> | Pick<S, K> | S)
-      | ((prevState: S, props: P) => void)
+      | ((prevState: S, props: P) => Partial<S> | Pick<S, K> | S | void)
       | (Partial<S> | Pick<S, K>),
     callback?: () => void
   ): void {
