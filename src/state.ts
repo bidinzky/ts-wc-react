@@ -16,7 +16,7 @@ export function UpdateFunctionGuardPick<S, P, K extends keyof S>(
   // tslint:disable-next-line:strict-type-predicates
   if (typeof u === 'object') {
     for (let k of Object.keys(s)) {
-      if (k in u) {
+      if (k in (u as object)) {
         is_key_in_u = true
         break
       }
@@ -34,7 +34,7 @@ export function UpdateFunctionGuardS<S, P, K extends keyof S>(
   let is_key_in_u = typeof u === 'object'
   if (is_key_in_u) {
     for (let k of Object.keys(s)) {
-      if (!(k in u)) {
+      if (!(k in (u as object))) {
         is_key_in_u = false
       }
     }
