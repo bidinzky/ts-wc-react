@@ -7,7 +7,7 @@ export function setState<S, P, K extends keyof S>(
   state_handler: StateHandler<S>,
   props: P,
   update:
-    | ((prevState: S, props: P) => Partial<S> | Pick<S, K> | S | void)
+    | ((prevState: S, props: P) => Partial<S> | Pick<S, K> | S | {})
     | (Partial<S> | Pick<S, K>),
   callback?: () => void
 ): void {
