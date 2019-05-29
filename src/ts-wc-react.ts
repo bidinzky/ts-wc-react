@@ -28,7 +28,7 @@ export class SimpleReact<S, P> extends HTMLElement {
     })
   }
 
-  static mapAttributes<S, P>(ele: SimpleReact<S, P>): P {
+  private static mapAttributes<S, P>(ele: SimpleReact<S, P>): P {
     let obj: P = {} as P
     for (let i of ele.attributes) {
       ;(obj as any)[i.name] = i.value
@@ -44,7 +44,7 @@ export class SimpleReact<S, P> extends HTMLElement {
     this.shadow = this.attachShadow({ mode: 'open' })
   }
 
-  handleRender() {
+  private handleRender() {
     if (this.render) {
       let new_props = SimpleReact.mapAttributes(this)
       let shouldUpdate =
@@ -62,6 +62,7 @@ export class SimpleReact<S, P> extends HTMLElement {
       }
     }
   }
+
   connectedCallback() {
     // this._attr = [...this.attributes];
     this.handleRender()
