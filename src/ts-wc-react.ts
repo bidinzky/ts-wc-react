@@ -18,6 +18,8 @@ export class SimpleReact<S, P> extends HTMLElement {
   public new_state: S = {} as S
   private props: P = {} as P
   private shadow: ShadowRoot
+  private template: HTMLTemplateElement
+  private defaultCSS: any
 
   setState<K extends keyof S>(update: UpdateFunction<S, P, K>, callback?: () => void): void {
     setState<S, P, K>(this, this.props, update, () => {
@@ -36,12 +38,14 @@ export class SimpleReact<S, P> extends HTMLElement {
     return obj
   }
 
-  constructor() {
+  constructor(defaultCSS = '') {
     super()
     this.observer.observe(this, {
       attributes: true
     })
     this.shadow = this.attachShadow({ mode: 'open' })
+    this.template = document.createElement('template')
+    this.template.innerHTML = defaultCSS
   }
 
   private handleRender() {
@@ -57,7 +61,9 @@ export class SimpleReact<S, P> extends HTMLElement {
         let renderOutput = this.render(this.state, this.props)
         if (renderOutput) {
           this.shadow.innerHTML = ''
-          this.shadow.appendChild(renderOutput)
+          let t = this.template.content.cloneNode(true)
+          t.appendChild(renderOutput)
+          this.shadow.appendChild(t)
         }
       }
     }
